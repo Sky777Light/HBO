@@ -6,9 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <title>HBO</title>
 
     <script src="components/pace/pace.min.js"></script>
+    <script src="components/three/three.js"></script>
+
+    <script src="components/three/fullscreen/fullscreen.js"></script>
+
+    <script src="components/three/controls/three.orbit.js"></script>
+
+    <script src="components/three/helpers/three.objcoord.js"></script>
+    <script src="components/three/helpers/three.projector.js"></script>
+
+    <script src="components/three/postprocessing/three.composer.js"></script>
+    <script src="components/three/postprocessing/three.mask.js"></script>
+    <script src="components/three/postprocessing/three.oculus.js"></script>
+    <script src="components/three/postprocessing/three.render.js"></script>
+    <script src="components/three/postprocessing/three.reticulum.js"></script>
+    <script src="components/three/postprocessing/three.shader.js"></script>
+
+    <script src="components/three/shaders/three.copy.js"></script>
+    <script src="components/three/shaders/three.ssao.js"></script>
+
     <link rel="stylesheet" href="./bundle/styles.css">
 </head>
 <body>
@@ -67,6 +87,15 @@
     <audio class="bg-audio" loop>
         <source src="./assets/audio/IntroMusic.mp3" type="audio/mpeg">
     </audio>
+
+    <div class="game">
+        <div class="timer">12.12.12</div>
+        <div class="btn-vr">VR</div>
+        <video width="320" height="auto" webkit-playsinline playsinline id="video" crossorigin="anonymous" style="display: none;" preload="auto">
+            <source src="./assets/video/m.mp4" type="video/mp4"/>
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
 
     <script src="./bundle/bundle.js"></script>
 </body>
