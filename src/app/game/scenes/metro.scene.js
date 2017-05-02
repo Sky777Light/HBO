@@ -13,6 +13,8 @@ export class MetroScene extends BaseScene {
         this.cityDoor.name = 'City Door';
         this.cityDoor.position.set(0, 30, -450);
         this.cityDoor.visible = false;
+        this.cityDoor.material.transparent = true;
+        this.cityDoor.material.opacity = 0.1;
 
         Reticulum.add( this.cityDoor, {
             onGazeLong: () =>{
@@ -27,7 +29,7 @@ export class MetroScene extends BaseScene {
 
         this.metroVideo = new THREE.Mesh(
             new THREE.PlaneGeometry(160, 90, 1, 1),
-            new THREE.MeshPhongMaterial({ map: new THREE.VideoTexture( this.sceneVideo ), side: THREE.DoubleSide })
+            new THREE.MeshPhongMaterial({ map: this.videoTexture, side: THREE.DoubleSide })
         );
         this.metroVideo.visible = false;
         this.metroVideo.name = 'Metro Video';
@@ -42,10 +44,13 @@ export class MetroScene extends BaseScene {
         this.videoBtn.position.y = -50;
         Reticulum.add( this.videoBtn, {
             onGazeLong: () =>{
+                this.metroDiary.visible = true;
+
                 this.videoBtn.visible = false;
                 this.metroVideo.visible = false;
-                this.sceneVideo.currentTime = 0;
                 this.sceneVideo.pause();
+                this.sceneVideo.children[0].src = null;
+                this.sceneVideo.currentTime = 0;
             }
         });
 
@@ -66,16 +71,19 @@ export class MetroScene extends BaseScene {
         this.metroDiary.rotation.x = 1.3;
         this.metroDiary.rotation.z = -0.9;
         this.metroDiary.visible = false;
+        this.metroDiary.material.transparent = true;
+        this.metroDiary.material.opacity = 0.1;
 
         Reticulum.add( this.metroDiary, {
             onGazeLong: () =>{
+                this.metroDiary.visible = false;
+
                 this.scenes.City.barOpened = true;
+
                 this.metroVideo.visible = true;
                 this.videoBtn.visible = true;
-                this.sceneVideo.children[0].src = './assets/video/metro.mp4';
-                this.sceneVideo.load();
-                this.sceneVideo.currentTime = 0;
-                this.sceneVideo.play();
+
+                this.videoPlay('./assets/video/metro.mp4');
             }
         });
 

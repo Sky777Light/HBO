@@ -7,6 +7,7 @@ export class Intro {
         this.touchStart = 0;
         this.presentState = 0;
         this.prevState = 0;
+        this.scroller = $('.scroll-img');
     }
 
     setTouchStart(e) {
@@ -27,6 +28,7 @@ export class Intro {
             if(newState < 0 || newState > Object.keys(animations).length) {
                 return;
             } else {
+                this.scroller.fadeOut(300);
                 this.canScroll = false;
                 this.prevState = this.presentState;
                 this.presentState = newState;
@@ -55,7 +57,10 @@ export class Intro {
         }
 
         if(!animations[pres].onEnd)
-            setTimeout(() => this.canScroll = true, animations[pres].time + animations[pres].delay);
+            setTimeout(() => {
+                this.scroller.fadeIn(300);
+                this.canScroll = true;
+            }, animations[pres].time + animations[pres].delay);
 
         this.presentState = pres;
 
@@ -83,6 +88,7 @@ export class Intro {
                     self.moveBack(prev);
                 }
             } else {
+                this.scroller.fadeIn(300);
                 self.presentState = 0;
                 self.canScroll = true;
             }

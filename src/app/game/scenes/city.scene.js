@@ -5,6 +5,7 @@ export class CityScene extends BaseScene {
         super(image, radius);
         this.scene.name = "City Scene";
         this.scene.material.visible = true;
+
         //metro
         this.metroDoor = new THREE.Mesh(
             new THREE.BoxBufferGeometry(135, 120, 200),
@@ -12,7 +13,10 @@ export class CityScene extends BaseScene {
         );
 
         this.metroDoor.name = 'Metro Door';
-        this.metroDoor.position.set(-320, 0, -470);
+        this.metroDoor.position.set(470, 0, -320);
+        this.metroDoor.rotation.y = -Math.PI/2;
+        this.metroDoor.material.transparent = true;
+        this.metroDoor.material.opacity = 0.1;
 
         Reticulum.add( this.metroDoor, {
             onGazeLong: () =>{
@@ -24,13 +28,15 @@ export class CityScene extends BaseScene {
 
         //bar
         this.barDoor = new THREE.Mesh(
-            new THREE.PlaneGeometry(48, 50, 1, 1),
+            new THREE.PlaneGeometry(60, 90, 1, 1),
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
 
         this.barDoor.name = 'Bar Door';
-        this.barDoor.position.set(305, -5, 270);
-        this.barDoor.rotation.y = 0.4;
+        this.barDoor.position.set(-350, 0, 370);
+        this.barDoor.rotation.y = -Math.PI/4;
+        this.barDoor.material.transparent = true;
+        this.barDoor.material.opacity = 0.1;
 
         Reticulum.add( this.barDoor, {
             onGazeLong: () =>{

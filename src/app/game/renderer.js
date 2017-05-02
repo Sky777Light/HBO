@@ -105,7 +105,9 @@ export class Renderer extends Events {
         //this.renderer.domElement.addEventListener("touchmove", (event) => this.emit("touchmove, pointermove", event), false);
 
         let deviceChange = () => {
-            this.controls.device = true;
+            if (/Mobi/.test(navigator.userAgent)) {
+                this.controls.device = true;
+            }
             window.removeEventListener("deviceorientation", deviceChange, true);
         };
 

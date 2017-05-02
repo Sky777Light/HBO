@@ -1,5 +1,4 @@
 import {TextureLoader} from "../textureLoader";
-import $ from "jquery";
 import * as TWEEN from '../tween';
 
 export class BaseScene {
@@ -14,12 +13,18 @@ export class BaseScene {
         this.scene.material.transparent = false;
         this.scene.material.visible = false;
 
-        this.sceneVideo = $('#video')[0];
+        this.sceneVideo = document.getElementById('video');
+        this.sceneVideo.onended = ()=>{
+            this.sceneVideo.currentTime = 0;
+            this.sceneVideo.pause();
+        };
+        this.videoTexture = new THREE.VideoTexture( this.sceneVideo );
     }
 
     transition(hideObj, showObj, moveForward) {
-        this.sceneVideo.currentTime = 0;
         this.sceneVideo.pause();
+        this.sceneVideo.children[0].src = null;
+        this.sceneVideo.currentTime = 0;
         hideObj.hideCtrl();
 
         showObj.scene.material.visible = true;
@@ -52,9 +57,9 @@ export class BaseScene {
     }
 
     hideCtrl(){
-        if(this.videoBtn){
-            this.videoBtn.visible = false;
-        }
+        if(this.videoBtn)this.videoBtn.visible = false;
+        if(this.locker)this.locker.visible = false;
+
         for(let i = 0; i < this.scene.children.length; i++){
             this.scene.children[i].visible = false;
         }
@@ -65,5 +70,12 @@ export class BaseScene {
                 this.scene.children[i].visible = true;
             }
         }
+        if(this.locker)this.locker.visible = false;
+    }
+    videoPlay(src){
+        this.sceneVideo.children[0].src = src;
+        this.sceneVideo.currentTime = 0;
+        this.sceneVideo.load();
+        this.sceneVideo.play();
     }
 }

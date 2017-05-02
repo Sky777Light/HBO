@@ -8,7 +8,7 @@ import {BarScene} from "./scenes/bar.scene";
 export class Game {
     constructor() {
         this.renderer = new Renderer('.game');
-
+        this.sceneVideo = document.getElementById('video');
         this.config();
         this.start();
 
@@ -67,10 +67,20 @@ export class Game {
 
         this.light.directional2 = new THREE.DirectionalLight(0xe1e1e1, 1.0);
         this.light.directional2.name = 'Directional Light';
-        this.light.directional2.position.set(-1, 1, -1).multiplyScalar(100);
+        this.light.directional2.position.set(1, 1, -1).multiplyScalar(100);
+
+        this.light.directional3 = new THREE.DirectionalLight(0xe1e1e1, 1.0);
+        this.light.directional3.name = 'Directional Light';
+        this.light.directional3.position.set(-1, 1, 1).multiplyScalar(100);
+
+        this.light.directional4 = new THREE.DirectionalLight(0xe1e1e1, 1.0);
+        this.light.directional4.name = 'Directional Light';
+        this.light.directional4.position.set(-1, 1, -1).multiplyScalar(100);
 
         this.renderer.scene.add(this.light.directional1);
         this.renderer.scene.add(this.light.directional2);
+        this.renderer.scene.add(this.light.directional3);
+        this.renderer.scene.add(this.light.directional4);
     }
 
     start() {
