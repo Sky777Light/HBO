@@ -8,9 +8,14 @@ export class Intro {
         this.presentState = 0;
         this.prevState = 0;
         this.scroller = $('.scroll-img');
+        this.firstTouch = false;
     }
 
     setTouchStart(e) {
+        if(!this.firstTouch){
+            this.firstTouch = true;
+            document.getElementById('bg-audio').play();
+        }
         this.touchStart = e.originalEvent.touches[0].clientY || e.originalEvent.touches[0].pageY;
     }
 
@@ -58,12 +63,8 @@ export class Intro {
 
         if(!animations[pres].onEnd)
             setTimeout(() => {
-                this.scroller.fadeIn(300, ()=>{
-                    setTimeout(()=>{
-                     this.canScroll = true;
-                    }, 1000);
-                });
-            }, animations[pres].time + animations[pres].delay);
+                this.scroller.fadeIn(300, ()=>{this.canScroll = true;});
+            }, animations[pres].time + animations[pres].delay + 1000);
 
         this.presentState = pres;
 
@@ -91,11 +92,10 @@ export class Intro {
                     self.moveBack(prev);
                 }
             } else {
-                this.scroller.fadeIn(300, ()=>{
-                    setTimeout(()=>{
-                     self.canScroll = true;
-                    }, 1000);
-                });
+                setTimeout(()=>{
+                    self.scroller.fadeIn(300, ()=>{self.canScroll = true;});
+                }, 1000);
+
                 self.presentState = 0;
             }
         };

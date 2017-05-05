@@ -16,7 +16,7 @@ $(document).ready(function () {
 //audio start on click on mobile devices
         function startAudio(){
                 bgAudio.play();
-                window.removeEventListener("click", startAudio, false);
+                window.removeEventListener("click", startAudio, true);
         }
 
         Pace.once('hide', () => {
@@ -65,10 +65,10 @@ $(document).ready(function () {
 
                 //start audio intro
                 bgAudio.play();
-                if(bgAudio.paused)window.addEventListener("click", startAudio, false);
+                window.addEventListener("click", startAudio, true);
+
         });
-
-
+        
 //start the game
         $('.btn-next').on("click", ()=>{
                 bgAudio.loop = false;
