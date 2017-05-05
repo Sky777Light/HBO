@@ -58,8 +58,11 @@ export class Intro {
 
         if(!animations[pres].onEnd)
             setTimeout(() => {
-                this.scroller.fadeIn(300);
-                this.canScroll = true;
+                this.scroller.fadeIn(300, ()=>{
+                    setTimeout(()=>{
+                     this.canScroll = true;
+                    }, 1000);
+                });
             }, animations[pres].time + animations[pres].delay);
 
         this.presentState = pres;
@@ -88,9 +91,12 @@ export class Intro {
                     self.moveBack(prev);
                 }
             } else {
-                this.scroller.fadeIn(300);
+                this.scroller.fadeIn(300, ()=>{
+                    setTimeout(()=>{
+                     self.canScroll = true;
+                    }, 1000);
+                });
                 self.presentState = 0;
-                self.canScroll = true;
             }
         };
     }

@@ -1,38 +1,30 @@
-import async from 'async';
-
 import {Renderer} from './renderer';
 import {CityScene} from "./scenes/city.scene";
 import {MetroScene} from "./scenes/metro.scene";
 import {BarScene} from "./scenes/bar.scene";
+import {WinScene} from "./scenes/win.scene";
+import {LoseScene} from "./scenes/lose.scene";
 
 export class Game {
-    constructor() {
+    constructor(textures, video, sceneAudio, bgAudio) {
+        this.textures = textures;
+        this.scenes = {};
         this.renderer = new Renderer('.game');
-        this.sceneVideo = document.getElementById('video');
+        this.state = "City";
+        this.sceneVideo = video;
+        this.sceneVideo.onended = ()=>{
+            this.sceneVideo.currentTime = 0;
+            this.sceneVideo.pause();
+        };
+
+        this.sceneAudio = sceneAudio;
+        this.bgAudio = bgAudio;
+
         this.config();
-        this.start();
-
-
-        this.before([
-            this.load
-        ], () => {
-            this.listener();
-        });
-
     }
 
-    before(funcs, done) {
-        async.eachSeries(funcs, (func, next) => {
-            func.call(this, next);
-        }, (err) => {
-            done.call(this, err);
-        });
-    }
 
     config() {
-        // Renderer basic config (light, camera, etc), creating basic object
-        // this.renderer.camera.position.set(0, 0, -100);
-        
         //Crosshair
         this.crosshair = Reticulum.init(this.renderer.camera, {
             proximity: false,
@@ -81,34 +73,28 @@ export class Game {
         this.renderer.scene.add(this.light.directional2);
         this.renderer.scene.add(this.light.directional3);
         this.renderer.scene.add(this.light.directional4);
+
+        this.start();
     }
 
     start() {
-
-        this.scenes = {};
-        this.scenes.City = new CityScene('./assets/img/game/city.jpg', 1000);
-        this.scenes.Metro = new MetroScene('./assets/img/game/metro.jpg', 1010);
-        this.scenes.Bar = new BarScene('./assets/img/game/bar.jpg', 1020);
+        this.scenes.City = new CityScene(this, 1000);
+        this.scenes.Metro = new MetroScene(this, 1010);
+        this.scenes.Bar = new BarScene(this, 1020);
+        this.scenes.Win = new WinScene(this, 1030);
+        this.scenes.Lose = new LoseScene(this, 1040);
 
         for(let i in this.scenes){
-            this.scenes[i].scenes = this.scenes;
             this.renderer.scene.add(this.scenes[i].scene);
         }
-
-    }
-
-    load(done) {
-        // load object
-        done();
-    }
-
-    listener() {
-        // event listeners
-        // this.renderer.on('mousemove', (event) => {
-        //     this.renderer.raycaster.hit(event, this.sphere, (intersects) => {
-        //         // console.log(intersects);
-        //     });
-        // });
     }
     
+    gameLose(){
+        for(let i in this.scenes){
+            if((this.scenes[i] != this.scenes[this.state]) && (this.scenes[i] != this.scenes.Lose)){
+                this.scenes[i].scene.visible = false;
+            }
+        }
+        this.scenes.City.transition(this.scenes[this.state], this.scenes.Lose, true);
+    }
 }

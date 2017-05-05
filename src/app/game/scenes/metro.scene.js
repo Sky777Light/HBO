@@ -1,93 +1,66 @@
 import {BaseScene} from "./base.scene";
 
 export class MetroScene extends BaseScene {
-    constructor(image, radius){
-        super(image, radius);
-        this.scene.name = "Metro Scene";
-        //city
+    constructor(game, radius){
+        super(game.textures[3], radius, game);
+        this.scene.name = "Metro";
+        this.audioSrc = './assets/audio/metro.mp3';
+        
+        
+    //city
         this.cityDoor = new THREE.Mesh(
-            new THREE.PlaneGeometry(50, 100, 1, 1),
+            new THREE.PlaneGeometry(72, 28, 1, 1),
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
-
         this.cityDoor.name = 'City Door';
-        this.cityDoor.position.set(0, 30, -450);
+        this.cityDoor.position.set(-12, 12, -450);
         this.cityDoor.visible = false;
         this.cityDoor.material.transparent = true;
-        this.cityDoor.material.opacity = 0.1;
-
+        this.cityDoor.material.opacity = 0.001;
         Reticulum.add( this.cityDoor, {
             onGazeLong: () =>{
-                this.transition(this.scenes.Metro, this.scenes.City, false);
+                this.transition(this, this.game.scenes.City, false);
             }
         });
-
         this.scene.add(this.cityDoor);
 
 
-        //metro video
-
-        this.metroVideo = new THREE.Mesh(
-            new THREE.PlaneGeometry(160, 90, 1, 1),
-            new THREE.MeshPhongMaterial({ map: this.videoTexture, side: THREE.DoubleSide })
+    //metro video
+        this.Video = new THREE.Mesh(
+            new THREE.PlaneGeometry(200, 112.5, 1, 1),
+            new THREE.MeshBasicMaterial({ map: this.game.textures[0], side: THREE.DoubleSide })
         );
-        this.metroVideo.visible = false;
-        this.metroVideo.name = 'Metro Video';
-        this.metroVideo.position.set(175, 7, 0);
-        this.metroVideo.rotation.y = 1.57;
-        this.metroVideo.eventFlag = true;
+        this.Video.visible = false;
+        this.Video.name = 'Metro Video';
+        this.Video.position.set(200, 7, 25);
+        this.Video.rotation.y = -1.57;
+        this.Video.eventFlag = true;
 
+        this.scene.add(this.Video);
+
+
+    //metro diary
         this.videoBtn = new THREE.Mesh(
-            new THREE.PlaneGeometry(20, 10, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0xff00ff, side: THREE.DoubleSide })
+            new THREE.PlaneGeometry(4, 7, 1, 1),
+            new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide })
         );
-        this.videoBtn.position.y = -50;
+        this.videoBtn.name = 'Metro Diary';
+        this.videoBtn.position.set(54.56, -24.42, 9.38);
+        this.videoBtn.rotation.y = 0.12;
+        this.videoBtn.rotation.x = 1.3;
+        this.videoBtn.rotation.z = -1;
+        this.videoBtn.visible = false;
+        this.videoBtn.material.transparent = true;
+        this.videoBtn.material.opacity = 0.001;
         Reticulum.add( this.videoBtn, {
             onGazeLong: () =>{
-                this.metroDiary.visible = true;
-
-                this.videoBtn.visible = false;
-                this.metroVideo.visible = false;
-                this.sceneVideo.pause();
-                this.sceneVideo.children[0].src = null;
-                this.sceneVideo.currentTime = 0;
-            }
-        });
-
-        this.metroVideo.add(this.videoBtn);
-        this.scene.add(this.metroVideo);
-
-
-        //metro diary
-
-        this.metroDiary = new THREE.Mesh(
-            new THREE.PlaneGeometry(4, 7, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0xffff00, side: THREE.DoubleSide })
-        );
-
-        this.metroDiary.name = 'Metro Diary';
-        this.metroDiary.position.set(53, -25, 8);
-        this.metroDiary.rotation.y = 0.4;
-        this.metroDiary.rotation.x = 1.3;
-        this.metroDiary.rotation.z = -0.9;
-        this.metroDiary.visible = false;
-        this.metroDiary.material.transparent = true;
-        this.metroDiary.material.opacity = 0.1;
-
-        Reticulum.add( this.metroDiary, {
-            onGazeLong: () =>{
-                this.metroDiary.visible = false;
-
-                this.scenes.City.barOpened = true;
-
-                this.metroVideo.visible = true;
-                this.videoBtn.visible = true;
-
                 this.videoPlay('./assets/video/metro.mp4');
+                this.game.scenes.City.barOpened = true;
+                this.game.scenes.City.scene.material.map = this.game.textures[2];
+                this.game.scenes.City.scene.material.needsUpdate = true;
             }
         });
-
-        this.scene.add(this.metroDiary);
+        this.scene.add(this.videoBtn);
     }
 
 }

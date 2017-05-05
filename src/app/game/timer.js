@@ -4,13 +4,14 @@ export class Timer {
         this.endTime = options.endTime;
         this.selector = options.selector;
         this.interval = options.interval;
-        this.tempTime = options.time * 1000;
+        this.optTime = options.time * 1000;
         this.start();
     }
 
     decrementCounter() {
         if(this.tempTime <= 0){
             this.update('00', '00', '00');
+            this.endTime();
             this.stop();
             return;
         }
@@ -31,12 +32,12 @@ export class Timer {
     }
 
     start () {
+        this.tempTime = this.optTime;
         clearInterval(this.timer);
         this.timer = setInterval(this.decrementCounter.bind(this), this.interval);
     }
 
     stop () {
-        this.endTime();
         clearInterval(this.timer);
     }
 

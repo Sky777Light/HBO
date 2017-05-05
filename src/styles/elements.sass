@@ -18,7 +18,6 @@
   position: relative
   width: 100%
   height: 100%
-  font-family: TrajanPro
   color: $white-proj
   overflow: hidden
   .changed-bg
@@ -41,7 +40,7 @@
       .loader-bot
         position: relative
         width: 75px
-        height: 22vh
+        height: 27vh
         border-top: 1px solid $white
         display: flex
         flex-direction: column
@@ -62,6 +61,8 @@
             border-left: 1px solid $white
             width: 2px
             height: 50%
+          .spider
+            height: 30px
   .scene3
     .dark-cont
       background: -moz-linear-gradient(359deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1) 60%, rgba(0, 0, 0, 0.8) 100%)
@@ -86,8 +87,9 @@
   align-items: center
   text-transform: initial
   justify-content: center
-  font-size: 15px
-  font-family: ProximaNova
+  .anim12
+    font-size: 17px
+    line-height: 22px
   .btn-wrap
     width: 180px
     height: 45px
@@ -120,6 +122,7 @@
     top: 0
     font-size: 5vw
     color: green
+    font-family: Digital
   .timer2
     display: none
     left: 50%
@@ -129,15 +132,23 @@
     position: absolute
     bottom: 20px
     left: 20px
-    width: 100px
+    width: auto
     height: 40px
     display: flex
     align-items: center
     justify-content: center
     background-color: $white
-    border-radius: 40px
-    font-size: 17px
+    border-radius: 3px
     text-transform: uppercase
+
+    img
+      max-width: 90%
+      max-height: 90%
+      filter: grayscale(20%)
+  .vr-active
+    background-color: #333333
+    img
+      filter: invert(100%)
   canvas
     background-color: #ffffff
 
@@ -155,16 +166,19 @@
         height: 40px
       .loader-bot
         width: 65px
+        .spider-wrap>.spider
+          height: 25px
       .text
         font-size: 16px
         margin: 18px 0
   .text
     font-size: 25px
     .anim12
-      font-size: 13px
+      font-size: 16px
+      line-height: 21px
     .btn-wrap
       width: 170px
-  .btn-next,.btn-vr
+  .btn-next
     font-size: 16px
 @media (max-width: 1199px)
   .logo
@@ -179,17 +193,20 @@
         height: 35px
       .loader-bot
         width: 60px
+        .spider-wrap>.spider
+          height: 20px
       .text
         font-size: 15px
         margin: 15px 0
   .text
     font-size: 23px
     .anim12
-      font-size: 11px
+      font-size: 15px
+      line-height: 20px
     .btn-wrap
       width: 150px
       height: 40px
-  .btn-next,.btn-vr
+  .btn-next
     font-size: 15px
   @media (orientation: landscape)
     .scroll-img
@@ -207,17 +224,17 @@
         height: 32px
       .loader-bot
         width: 55px
+        .spider-wrap>.spider
+          height: 20px
       .text
         font-size: 14px
         margin: 14px 0
   .text
     font-size: 20px
-    .anim12
-      font-size: 10px
     .btn-wrap
       width: 140px
       height: 35px
-  .btn-next,.btn-vr
+  .btn-next
     font-size: 14px
   @media (orientation: landscape)
     .scroll-img
@@ -236,16 +253,19 @@
         height: 30px
       .loader-bot
         width: 50px
+        .spider-wrap>.spider
+          height: 18px
       .text
         font-size: 13px
         margin: 13px 0
   .text
     font-size: 17px
     .anim12
-      font-size: 9px
+      font-size: 14px
+      line-height: 18px
     .btn-wrap
       width: 125px
-  .btn-next,.btn-vr
+  .btn-next
     font-size: 13px
   @media (orientation: landscape)
     .scroll-img
@@ -253,7 +273,11 @@
       bottom: 10px
 @media (max-width: 750px) and (orientation: landscape)
   .anim10
-    margin-top: -3%
+    margin-top: -7%
+@media (max-width: 1024px) and (orientation: portrait)
+  .game>.timer
+    font-size: 8vw
+    width: 18%
 @media (max-width: 599px)
   .logo
     top: 10px
@@ -268,17 +292,20 @@
         height: 23px
       .loader-bot
         width: 50px
+        .spider-wrap>.spider
+          height: 15px
       .text
         font-size: 12px
         margin: 10px 0
   .text
     font-size: 15px
     .anim12
-      font-size: 8px
+      font-size: 12px
+      line-height: 16px
     .btn-wrap
       width: 115px
       height: 30px
-  .btn-next,.btn-vr
+  .btn-next
     font-size: 12px
   @media (orientation: landscape)
     .scroll-img

@@ -1,141 +1,184 @@
 import {BaseScene} from "./base.scene";
 
 export class BarScene extends BaseScene {
-    constructor(image, radius){
-        super(image, radius);
-        this.scene.name = "Bar Scene";
+    constructor(game, radius){
+        super(game.textures[4], radius, game);
+        this.scene.name = "Bar";
+        this.audioSrc = './assets/audio/bar.mp3';
+        this.password = '';
+        this.finishGame = false;
         
-        //city door
+    //city door
         this.cityDoor = new THREE.Mesh(
             new THREE.PlaneGeometry(127, 152, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
+            new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
-
         this.cityDoor.name = 'City Door';
         this.cityDoor.position.set(-160, -55, 450);
         this.cityDoor.visible = false;
         this.cityDoor.material.transparent = true;
-        this.cityDoor.material.opacity = 0.1;
-
+        this.cityDoor.material.opacity = 0.001;
         Reticulum.add( this.cityDoor, {
             onGazeLong: () =>{
-                this.transition(this.scenes.Bar, this.scenes.City, false);
+                this.disableLocker();
+                this.transition(this.game.scenes.Bar, this.game.scenes.City, false);
             }
         });
-
         this.scene.add(this.cityDoor);
 
 
-        //bar video
-
-        this.barVideo = new THREE.Mesh(
+    //bar video
+        this.Video = new THREE.Mesh(
             new THREE.PlaneGeometry(160, 90, 1, 1),
-            new THREE.MeshPhongMaterial({ map: this.videoTexture, side: THREE.DoubleSide })
+            new THREE.MeshBasicMaterial({ map: this.game.textures[0], side: THREE.DoubleSide })
         );
-        this.barVideo.visible = false;
-        this.barVideo.name = 'Bar Video';
-        this.barVideo.position.set(30, 22, 240);
-        this.barVideo.eventFlag = true;
+        this.Video.visible = false;
+        this.Video.name = 'Bar Video';
+        this.Video.position.set(25, 22, 200);
+        this.Video.rotation.y = Math.PI;
+        this.Video.eventFlag = true;
+        this.scene.add(this.Video);
 
+
+    //bar element
         this.videoBtn = new THREE.Mesh(
-            new THREE.PlaneGeometry(20, 10, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0xff00ff, side: THREE.DoubleSide })
+            new THREE.PlaneGeometry(15, 4, 1, 1),
+            new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
-        this.videoBtn.position.y = -50;
+        this.videoBtn.name = 'Bar Element';
+        this.videoBtn.position.set(15, -19, 100);
+        this.videoBtn.visible = false;
+        this.videoBtn.material.transparent = true;
+        this.videoBtn.material.opacity = 0.001;
         Reticulum.add( this.videoBtn, {
             onGazeLong: () =>{
-                this.barElement.visible = true;
-
-                this.videoBtn.visible = false;
-                this.barVideo.visible = false;
-                this.sceneVideo.pause();
-                this.sceneVideo.children[0].src = null;
-                this.sceneVideo.currentTime = 0;
+                this.videoPlay('./assets/video/bar.mp4');
             }
         });
+        this.scene.add(this.videoBtn);
 
-        this.barVideo.add(this.videoBtn);
-        this.scene.add(this.barVideo);
-
-
-        //bar element
-
-        this.barElement = new THREE.Mesh(
-            new THREE.PlaneGeometry(12, 4, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0xffff00, side: THREE.DoubleSide })
-        );
-
-        this.barElement.name = 'Bar Element';
-        this.barElement.position.set(15, -19, 100);
-        this.barElement.visible = false;
-        this.barElement.material.transparent = true;
-        this.barElement.material.opacity = 0.1;
-
-        Reticulum.add( this.barElement, {
-            onGazeLong: () =>{
-                this.barElement.visible = false;
-
-                this.scenes.Bar.passFound = true;
-
-                this.barVideo.visible = true;
-                this.videoBtn.visible = true;
-
-                this.videoPlay('./assets/video/m.mp4');
-
-            }
-        });
-
-        this.scene.add(this.barElement);
-
-        //lock door
-
+        
+    //lock door
         this.lockDoor = new THREE.Mesh(
-            new THREE.PlaneGeometry(3, 6, 1, 1),
+            new THREE.PlaneGeometry(4, 7, 1, 1),
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
-
         this.lockDoor.name = 'Lock Door';
-        this.lockDoor.position.set(-62, -19, -100);
+        this.lockDoor.position.set(-61.5, -19, -100);
+        this.lockDoor.rotation.y = 1.4;
         this.lockDoor.visible = false;
         this.lockDoor.material.transparent = true;
-        this.lockDoor.material.opacity = 0.1;
-
+        this.lockDoor.material.opacity = 0.001;
         Reticulum.add( this.lockDoor, {
             onGazeLong: () =>{
-                this.lockDoor.visible = false;
-                this.locker.visible = true;
+                this.enableLocker();
             }
         });
-
         this.scene.add(this.lockDoor);
 
-        //locker
+    //exit door
+        this.exitDoor = new THREE.Mesh(
+            new THREE.PlaneGeometry(40, 100, 1, 1),
+            new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
+        );
+        this.exitDoor.name = 'Exit Door';
+        this.exitDoor.position.set(-105, -33.5, -202);
+        this.exitDoor.rotation.y = 1.5;
+        this.exitDoor.visible = false;
+        this.exitDoor.material.transparent = true;
+        this.exitDoor.material.opacity = 0.001;
+        Reticulum.add( this.exitDoor, {
+            onGazeLong: () =>{
+                if(this.finishGame){
+                    this.disableLocker();
+                    //  FINISH GAME
+                    this.transition(this.game.scenes.Bar, this.game.scenes.Win, true);
+                    this.game.timer.stop();
+                    this.game.bgAudio.pause();
+                }
+            }
+        });
+        this.scene.add(this.exitDoor);
 
+
+    //locker
         this.locker = new THREE.Mesh(
             new THREE.PlaneGeometry(80, 120, 1, 1),
-            new THREE.MeshPhongMaterial({ map: TextureLoader.load(image), side: THREE.DoubleSide })
+            new THREE.MeshBasicMaterial({ map: this.game.textures[7], side: THREE.DoubleSide })
         );
-
         this.locker.name = 'Locker';
-        this.locker.position.set(-62, -19, -100);
+        this.locker.position.set(-100, -19, -150);
         this.locker.rotation.y = 0.6;
         this.locker.visible = false;
-
-
-        for(let i = 0; i < 10; i++){
+        this.locker.eventFlag = true;
+        for(let i = 1; i < 11; i++){
             let num = new THREE.Mesh(
-                new THREE.PlaneGeometry(20, 20, 1, 1),
-                new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
+                new THREE.PlaneGeometry(16, 16, 1, 1),
+                new THREE.MeshPhongMaterial({ color: 0x00b400, side: THREE.DoubleSide })
             );
-
-            num.position.set(-62, -19, -100);
+            num.position.set(-22, 27.5, 1);
+            num.visible = false;
+            num.material.transparent = true;
+            num.material.opacity = 0.001;
+            num.number = i;
+            if( (i+1)%3 === 0 || i === 10)num.position.x = 0;
+            if( i%3 === 0 )num.position.x = 22;
+            if(i>3 && i<=6){ num.position.y = 5;}else if(i>6 && i < 10){num.position.y = -18;}else if(i === 10){num.position.y = -41;}
             this.locker.add(num);
         }
-
-
-
+        Reticulum.add( this.locker.children[0], {onGazeLong: () =>{this.checkPass(this.locker.children[0]);}});
+        Reticulum.add( this.locker.children[1], {onGazeLong: () =>{this.checkPass(this.locker.children[1]);}});
+        Reticulum.add( this.locker.children[2], {onGazeLong: () =>{this.checkPass(this.locker.children[2]);}});
+        Reticulum.add( this.locker.children[3], {onGazeLong: () =>{this.checkPass(this.locker.children[3]);}});
+        Reticulum.add( this.locker.children[4], {onGazeLong: () =>{this.checkPass(this.locker.children[4]);}});
+        Reticulum.add( this.locker.children[5], {onGazeLong: () =>{this.checkPass(this.locker.children[5]);}});
+        Reticulum.add( this.locker.children[6], {onGazeLong: () =>{this.checkPass(this.locker.children[6]);}});
+        Reticulum.add( this.locker.children[7], {onGazeLong: () =>{this.checkPass(this.locker.children[7]);}});
+        Reticulum.add( this.locker.children[8], {onGazeLong: () =>{this.checkPass(this.locker.children[8]);}});
+        Reticulum.add( this.locker.children[9], {onGazeLong: () =>{this.checkPass(this.locker.children[9]);}});
         this.scene.add(this.locker);
-
-
     }
+
+    checkPass(btn){
+        console.log(this.game.textures);
+        btn.material.opacity = 0.5;
+        this.password += btn.number;
+        if(this.password[this.password.length - 1] === btn.number)return;
+
+        if(this.password.length === 4){
+            if(this.password === '2649'){
+                this.finishGame = true;
+                this.locker.material.map = this.game.textures[9];
+                this.locker.material.needsUpdate = true;
+            }else {
+                this.locker.material.map = this.game.textures[8];
+                this.locker.material.needsUpdate = true;
+            }
+            setTimeout(()=>{
+                this.disableLocker();
+            }, 1000);
+            this.password = '';
+        }
+    }
+
+    disableLocker(){
+        for(let i = 0; i < this.locker.children.length; i++){
+            this.locker.children[i].material.opacity = 0.001;
+        }
+        this.locker.material.map = this.game.textures[7];
+        this.lockDoor.visible = true;
+        this.locker.visible = false;
+        for(let i = 0; i < this.locker.children.length; i++){
+            this.locker.children[i].visible = false;
+        }
+    }
+
+    enableLocker(){
+        this.lockDoor.visible = false;
+        this.locker.visible = true;
+        for(let i = 0; i < this.locker.children.length; i++){
+            this.locker.children[i].visible = true;
+        }
+    }
+
 }
