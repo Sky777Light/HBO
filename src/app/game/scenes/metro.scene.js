@@ -8,22 +8,38 @@ export class MetroScene extends BaseScene {
         
         
     //city
-        this.cityDoor = new THREE.Mesh(
+        this.cityDoor1 = new THREE.Mesh(
             new THREE.PlaneGeometry(72, 28, 1, 1),
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
-        this.cityDoor.name = 'City Door';
-        this.cityDoor.position.set(-12, 12, -450);
-        this.cityDoor.visible = false;
-        this.cityDoor.material.transparent = true;
-        this.cityDoor.material.opacity = 0.001;
-        Reticulum.add( this.cityDoor, {
+        this.cityDoor1.name = 'City Door1';
+        this.cityDoor1.position.set(-12, 12, -450);
+        this.cityDoor1.visible = false;
+        this.cityDoor1.material.transparent = true;
+        this.cityDoor1.material.opacity = 0.001;
+        Reticulum.add( this.cityDoor1, {
             onGazeLong: () =>{
                 this.transition(this, this.game.scenes.City, false);
             }
         });
-        this.scene.add(this.cityDoor);
+        this.scene.add(this.cityDoor1);
 
+
+        this.cityDoor2 = new THREE.Mesh(
+            new THREE.PlaneGeometry(38, 14, 1, 1),
+            new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
+        );
+        this.cityDoor2.name = 'City Door2';
+        this.cityDoor2.position.set(-18, 8, 450);
+        this.cityDoor2.visible = false;
+        this.cityDoor2.material.transparent = true;
+        this.cityDoor2.material.opacity = 0.001;
+        Reticulum.add( this.cityDoor2, {
+            onGazeLong: () =>{
+                this.transition(this, this.game.scenes.City, false);
+            }
+        });
+        this.scene.add(this.cityDoor2);
 
     //metro video
         this.Video = new THREE.Mesh(

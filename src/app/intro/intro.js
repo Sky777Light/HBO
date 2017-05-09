@@ -8,14 +8,9 @@ export class Intro {
         this.presentState = 0;
         this.prevState = 0;
         this.scroller = $('.scroll-img');
-        this.firstTouch = false;
     }
 
     setTouchStart(e) {
-        if(!this.firstTouch){
-            this.firstTouch = true;
-            document.getElementById('bg-audio').play();
-        }
         this.touchStart = e.originalEvent.touches[0].clientY || e.originalEvent.touches[0].pageY;
     }
 

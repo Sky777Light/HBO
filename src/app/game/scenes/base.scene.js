@@ -7,7 +7,7 @@ export class BaseScene {
         cityGeo.dynamic = true;
         cityGeo.verticesNeedUpdate = true;
         cityGeo.scale(-1, 1, 1);
-        let cityMat = new THREE.MeshBasicMaterial({ map: texture});
+        let cityMat = texture ? new THREE.MeshBasicMaterial({ map: texture}) :  new THREE.MeshBasicMaterial({ color: 0x000000});
         cityMat.needsUpdate = true;
         this.scene = new THREE.Mesh(cityGeo, cityMat);
 

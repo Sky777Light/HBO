@@ -14,7 +14,8 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
         this.cityDoor.name = 'City Door';
-        this.cityDoor.position.set(-160, -55, 450);
+        this.cityDoor.position.set(-85, -47, 450);
+        this.cityDoor.rotation.z = -0.06;
         this.cityDoor.visible = false;
         this.cityDoor.material.transparent = true;
         this.cityDoor.material.opacity = 0.001;
@@ -34,8 +35,9 @@ export class BarScene extends BaseScene {
         );
         this.Video.visible = false;
         this.Video.name = 'Bar Video';
-        this.Video.position.set(25, 22, 200);
-        this.Video.rotation.y = Math.PI;
+        this.Video.position.set(70, 22, 200);
+        this.Video.rotation.y = 3.46;
+        this.Video.rotation.z = 0.04;
         this.Video.eventFlag = true;
         this.scene.add(this.Video);
 
@@ -46,7 +48,8 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
         this.videoBtn.name = 'Bar Element';
-        this.videoBtn.position.set(15, -19, 100);
+        this.videoBtn.position.set(29, -22, 100);
+        this.videoBtn.rotation.y = 0.32;
         this.videoBtn.visible = false;
         this.videoBtn.material.transparent = true;
         this.videoBtn.material.opacity = 0.001;
@@ -64,8 +67,9 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
         this.lockDoor.name = 'Lock Door';
-        this.lockDoor.position.set(-61.5, -19, -100);
-        this.lockDoor.rotation.y = 1.4;
+        this.lockDoor.position.set(-86, -15, -100);
+        this.lockDoor.rotation.y = 1.74;
+        this.lockDoor.rotation.y = -0.02;
         this.lockDoor.visible = false;
         this.lockDoor.material.transparent = true;
         this.lockDoor.material.opacity = 0.001;
@@ -76,29 +80,31 @@ export class BarScene extends BaseScene {
         });
         this.scene.add(this.lockDoor);
 
-    //exit door
-        this.exitDoor = new THREE.Mesh(
-            new THREE.PlaneGeometry(40, 100, 1, 1),
-            new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
-        );
-        this.exitDoor.name = 'Exit Door';
-        this.exitDoor.position.set(-105, -33.5, -202);
-        this.exitDoor.rotation.y = 1.5;
-        this.exitDoor.visible = false;
-        this.exitDoor.material.transparent = true;
-        this.exitDoor.material.opacity = 0.001;
-        Reticulum.add( this.exitDoor, {
-            onGazeLong: () =>{
-                if(this.finishGame){
-                    this.disableLocker();
-                    //  FINISH GAME
-                    this.transition(this.game.scenes.Bar, this.game.scenes.Win, true);
-                    this.game.timer.stop();
-                    this.game.bgAudio.pause();
-                }
-            }
-        });
-        this.scene.add(this.exitDoor);
+    // //exit door
+    //     this.exitDoor = new THREE.Mesh(
+    //         new THREE.PlaneGeometry(40, 100, 1, 1),
+    //         new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
+    //     );
+    //     this.exitDoor.name = 'Exit Door';
+    //     this.exitDoor.position.set(-135, -25, -180);
+    //     this.exitDoor.rotation.x = -0.06;
+    //     this.exitDoor.rotation.y = 1.72;
+    //     this.exitDoor.rotation.z = -0.04;
+    //     this.exitDoor.visible = false;
+    //     this.exitDoor.material.transparent = true;
+    //     this.exitDoor.material.opacity = 0.001;
+    //     Reticulum.add( this.exitDoor, {
+    //         onGazeLong: () =>{
+    //             if(this.finishGame){
+    //                 this.disableLocker();
+    //                 //  FINISH GAME
+    //                 this.transition(this.game.scenes.Bar, this.game.scenes.Win, true);
+    //                 this.game.timer.stop();
+    //                 this.game.bgAudio.pause();
+    //             }
+    //         }
+    //     });
+    //     this.scene.add(this.exitDoor);
 
 
     //locker
@@ -107,8 +113,8 @@ export class BarScene extends BaseScene {
             new THREE.MeshBasicMaterial({ map: this.game.textures[7], side: THREE.DoubleSide })
         );
         this.locker.name = 'Locker';
-        this.locker.position.set(-100, -19, -150);
-        this.locker.rotation.y = 0.6;
+        this.locker.position.set(-110, -19, -140);
+        this.locker.rotation.y = 0.68;
         this.locker.visible = false;
         this.locker.eventFlag = true;
         for(let i = 1; i < 11; i++){
@@ -150,13 +156,20 @@ export class BarScene extends BaseScene {
                 this.finishGame = true;
                 this.locker.material.map = this.game.textures[9];
                 this.locker.material.needsUpdate = true;
+                setTimeout(()=>{
+                    this.disableLocker();
+                    //  FINISH GAME
+                    this.transition(this.game.scenes.Bar, this.game.scenes.Win, true);
+                    this.game.timer.stop();
+                    this.game.bgAudio.pause();
+                }, 500);
             }else {
                 this.locker.material.map = this.game.textures[8];
                 this.locker.material.needsUpdate = true;
+                setTimeout(()=>{
+                    this.disableLocker();
+                }, 500);
             }
-            setTimeout(()=>{
-                this.disableLocker();
-            }, 1000);
             this.password = '';
         }
     }

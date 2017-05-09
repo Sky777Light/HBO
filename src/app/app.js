@@ -13,64 +13,64 @@ $(document).ready(function () {
 
         let Start = new Intro();
 
-//audio start on click on mobile devices
-        function startAudio(){
+
+        $(".preload>.btn-next").click(function () {
                 bgAudio.play();
-                window.removeEventListener("click", startAudio, true);
-        }
+                $('.loader').css('display', 'flex');
+                $('.logo').css('display', 'block');
+                $('.preload').css('display', 'none');
+                window.paceStart();
 
-        Pace.once('hide', () => {
-                $(".scene1").fadeOut( 2000, function () {
-                        new preLoader((textures, video)=>{
-                                game = new Game(textures, video, sceneAudio, bgAudio);
-                                gameLoaded = true;
-                        });
+                Pace.once('hide', () => {
+                        $(".scene1").fadeOut( 2000, function () {
+                                new preLoader((textures, video)=>{
+                                        game = new Game(textures, video, sceneAudio, bgAudio);
+                                        gameLoaded = true;
+                                });
 
-                        //wait untill textule will load and start the game
-                        let gameStartInterval = setInterval(function () {
-                                if(gameLoaded && gameStart){
-                                        game.sceneAudio.children[0].src = './assets/audio/city.mp3';
-                                        game.sceneAudio.load();
-                                        game.sceneAudio.play();
+                                //wait untill textule will load and start the game
+                                let gameStartInterval = setInterval(function () {
+                                        if(gameLoaded && gameStart){
+                                                game.sceneAudio.children[0].src = './assets/audio/city.mp3';
+                                                game.sceneAudio.load();
+                                                game.sceneAudio.play();
 
-                                        game.timer = new Timer({
-                                                time: 360,
-                                                selector: '.timer',
-                                                interval: 1000,
-                                                update: (hour, min, sec) => {
-                                                        let string = min + ':' + sec;
-                                                        $('.timer').text(string);
-                                                        if (min <= 0) {
-                                                                $('.timer').css({"color": "red"});
-                                                                if(game.bgAudio.paused){
-                                                                        game.bgAudio.currentTime = 0;
-                                                                        game.bgAudio.children[0].src = './assets/audio/GameMusic.mp3';
-                                                                        game.bgAudio.load();
-                                                                        game.bgAudio.play();
+                                                game.timer = new Timer({
+                                                        time: 240,
+                                                        selector: '.timer',
+                                                        interval: 1000,
+                                                        update: (hour, min, sec) => {
+                                                                let string = min + ':' + sec;
+                                                                $('.timer').text(string);
+                                                                if (min <= 0) {
+                                                                        $('.timer').css({"color": "red"});
+                                                                        if(game.bgAudio.paused){
+                                                                                game.bgAudio.currentTime = 0;
+                                                                                game.bgAudio.children[0].src = './assets/audio/GameMusic.mp3';
+                                                                                game.bgAudio.load();
+                                                                                game.bgAudio.play();
+                                                                        }
                                                                 }
+                                                        },
+                                                        endTime: ()=> {
+                                                                game.bgAudio.pause();
+                                                                game.gameLose();
                                                         }
-                                                },
-                                                endTime: ()=> {
-                                                        game.bgAudio.pause();
-                                                        game.gameLose();
-                                                }
-                                        });
-                                        clearInterval(gameStartInterval);
-                                }
-                        }, 100);
+                                                });
+                                                clearInterval(gameStartInterval);
+                                        }
+                                }, 100);
+                        });
+                        $(".scroll-img").fadeIn("slow", () => {Start.addListeners();});
+                        $(".scene2").fadeIn( "slow");
+
                 });
-                $(".scroll-img").fadeIn("slow", () => {Start.addListeners();});
-                $(".scene2").fadeIn( "slow");
-
-
-                //start audio intro
-                bgAudio.play();
-                window.addEventListener("click", startAudio, true);
-
         });
+
+
         
 //start the game
-        $('.btn-next').on("click", ()=>{
+        $('.game-start').on("click", ()=>{
                 bgAudio.loop = false;
                 bgAudio.currentTime = 0;
                 if(!bgAudio.paused){
@@ -88,8 +88,9 @@ $(document).ready(function () {
                 document.getElementById('video').play();
                 Start.removeListeners();
                 $('.game').fadeIn(2000);
+                THREEx.FullScreen.request($('.game')[0]);
 
-                $('.btn-next').off("click");
+                $('.game-start').off("click");
         });
 
         $('.btn-vr').on('click', function(){
