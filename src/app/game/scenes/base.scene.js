@@ -20,13 +20,13 @@ export class BaseScene {
         this.videoPause();
         hideObj.hideCtrl();
         this.game.state = showObj.scene.name;
-        showObj.scene.material.visible = true;
-
-        showObj.scene.material.opacity = moveForward ? 1 : 0;
-        hideObj.scene.material.opacity = 1;
+        showObj.scene.visible = true;
 
         hideObj.scene.material.transparent = moveForward ? true : false;
         showObj.scene.material.transparent = moveForward ? false : true;
+
+        showObj.scene.material.opacity = moveForward ? 1 : 0;
+        hideObj.scene.material.opacity = 1;
         
         let opacity = { percentage : moveForward ? 1 : 0 };
         let tween = new TWEEN.Tween( opacity )
@@ -41,7 +41,7 @@ export class BaseScene {
             .onComplete( function(){
                 showObj.scene.material.transparent = false;
                 hideObj.scene.material.transparent = false;
-                hideObj.scene.material.visible = false;
+                hideObj.scene.visible = false;
                 hideObj.scene.material.opacity = 1;
                 TWEEN.Tween.remove(tween);
                 showObj.showCtrl();
