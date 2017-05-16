@@ -28,8 +28,7 @@ export class BaseScene {
         showObj.scene.material.opacity = moveForward ? 1 : 0;
         hideObj.scene.material.opacity = 1;
         
-        let opacity = { percentage : moveForward ? 1 : 0 };
-        let tween = new TWEEN.Tween( opacity )
+        let tween = new TWEEN.Tween( { percentage : moveForward ? 1 : 0 } )
             .to( { percentage : moveForward ? 0 : 1 }, 1000 )
             .onUpdate( function(){
                 if(moveForward){

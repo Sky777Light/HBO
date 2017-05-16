@@ -1,4 +1,5 @@
 import {BaseScene} from "./base.scene";
+import * as TWEEN from '../tween';
 
 export class CityScene extends BaseScene {
     constructor(game, radius){
@@ -7,7 +8,28 @@ export class CityScene extends BaseScene {
         this.barOpened = false;
         this.audioSrc = './assets/audio/city.mp3';
         
+    //metro label
+        this.metroLabel = new THREE.Mesh(
+            new THREE.CircleBufferGeometry(20, 32),
+            new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
+        );
+        this.metroLabel.name = 'Metro Label';
+        this.metroLabel.position.set(486, 79.5, -257);
+        this.metroLabel.rotation.y = -1.5;
+        this.metroLabel.material.transparent = true;
+        this.metroLabel.material.opacity = 0.9;
+        let self = this;
+        new TWEEN.Tween( { opacity : 0.4 } )
+            .to( { opacity : 0 }, 200 )
+            .repeat( Infinity )
+            .yoyo( true )
+            .onUpdate( function(){
+                self.metroLabel.material.opacity = this.opacity;
+            } )
+            .start();
         
+        this.scene.add(this.metroLabel);
+
     //metro
         this.metroDoor = new THREE.Mesh(
             new THREE.BoxBufferGeometry(135, 120, 200),
@@ -45,6 +67,6 @@ export class CityScene extends BaseScene {
         });
         this.scene.add(this.barDoor);
 
-
     }
+
 }

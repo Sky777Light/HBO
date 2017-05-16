@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <title>HBO</title>
+
+    <script src="components/pace/pace.min.js"></script>
+    <script src="components/three/three.js"></script>
+
+    <script src="components/three/fullscreen/fullscreen.js"></script>
+
+    <script src="components/three/controls/three.orbit.js"></script>
+
+    <script src="components/three/helpers/three.objcoord.js"></script>
+    <script src="components/three/helpers/three.projector.js"></script>
+
+    <script src="components/three/postprocessing/three.composer.js"></script>
+    <script src="components/three/postprocessing/three.mask.js"></script>
+    <script src="components/three/postprocessing/three.oculus.js"></script>
+    <script src="components/three/postprocessing/three.render.js"></script>
+    <script src="components/three/postprocessing/three.reticulum.js"></script>
+    <script src="components/three/postprocessing/three.shader.js"></script>
+
+    <script src="components/three/shaders/three.copy.js"></script>
+    <script src="components/three/shaders/three.ssao.js"></script>
+
+    <link rel="stylesheet" href="./bundle/styles.css">
+</head>
+<body>
+    <img class="logo" src="./assets/img/logo.png" alt="">
+    <img class="scroll-img centerX" src="./assets/img/scroll.png" alt="">
+    <div class="scenes bg1 bg-main">
+        <div class="changed-bg fullscreen bg-main"></div>
+        <div class="text">
+            <span class="anim2 anim">ELA É MIORA, MINHA FILHA</span>
+            <span class="anim4 anim">QUE DESAPARECEU...</span>
+            <span class="anim6 anim">INEXPLICAVELMENTE...</span>
+            <span class="anim7 anim">E SEM DEIXAR VESTÍGIOS.</span>
+            <span class="anim8 anim">EM SEGUNDOS MINHA VIDA SE<br>TORNOU UM PESADELO E ACHAR QUE<br>É MINHA OBSESSÃO.</span>
+            <span class="anim10 anim">ME AJUDE A ENCONTRÁ-LA.</span>
+            <span class="anim11 anim">NÓS TEMOS APENAS 4 MINUTOS.</span>
+            <div class="anim12-wrap">
+                <span class="anim12 anim">Entre, procurando, e siga as pistas que<br>irão levar você a encontrar Moira.</span>
+                <span class="anim12 anim">Se ele tivesse chegado a esse dia no<br>Subte, talvez eu não teria perdido...</span>
+                <div class="anim12 anim btn-wrap">
+                    <div class="btn-next game-start">empieza ya</div>
+                </div>
+            </div>
+        </div>
+        <div class="scene1 fullscreen bg-main">
+            <div class="preload">
+                <img class="load-logo" src="./assets/img/load-logo.png" alt="">
+                <div class="btn-next">entra</div>
+            </div>
+
+            <div class="loader centerXY">
+                <img class="speaker" src="./assets/img/speaker.png" alt="">
+                <div class="text">
+                    <span>PARA UMA MELHOR EXPERIÊNCIA</span>
+                    <span>AJUSTE O SEU SOM</span>
+                </div>
+                <div class="loader-bot">
+                    <div class="pace-wrap"></div>
+                    <div class="spider-wrap">
+                        <div class="spider-line centerX"></div>
+                        <img class="spider" src="./assets/img/spider.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scene2 fullscreen">
+            <img class="anim1 anim girl centerXY" src="./assets/img/girl.png" alt="">
+        </div>
+        <div class="scene3 fullscreen">
+            <img class="anim3 anim girl centerXY" src="./assets/img/girl-shadow.png" alt="">
+            <div class="dark-cont anim5 anim fullscreen bg-main">
+                <div class="darc-top"></div>
+            </div>
+            <div class="tunnel anim5 anim fullscreen bg-main"></div>
+        </div>
+        <div class="scene4 fullscreen">
+            <img class="anim9 anim man centerXY" src="./assets/img/man.png" alt="">
+        </div>
+    </div>
+
+    <audio id="bg-audio" loop preload>
+        <source src="./assets/audio/IntroMusic.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="game">
+        <div class="timer"></div>
+        <div class="timer timer2"></div>
+        <div class="btn-vr">
+            <img src="./assets/img/game/vr.png" alt="">
+        </div>
+        <video width="320" height="auto" webkit-playsinline playsinline id="video" crossorigin="anonymous" style="display: none;" preload="auto">
+            <source src="./assets/video/metro.mp4" type="video/mp4"/>
+            Your browser does not support HTML5 video.
+        </video>
+        <audio id="audio" loop preload>
+            <source src="./assets/audio/city.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script src="./bundle/bundle.js"></script>
+</body>
+</html>

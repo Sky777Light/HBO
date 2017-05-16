@@ -14,8 +14,7 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
         this.cityDoor.name = 'City Door';
-        this.cityDoor.position.set(-85, -47, 450);
-        this.cityDoor.rotation.z = -0.06;
+        this.cityDoor.position.set(-150, -50, 430);
         this.cityDoor.visible = false;
         this.cityDoor.material.transparent = true;
         this.cityDoor.material.opacity = 0.001;
@@ -35,9 +34,8 @@ export class BarScene extends BaseScene {
         );
         this.Video.visible = false;
         this.Video.name = 'Bar Video';
-        this.Video.position.set(70, 22, 200);
-        this.Video.rotation.y = 3.46;
-        this.Video.rotation.z = 0.04;
+        this.Video.position.set(45, 22, 200);
+        this.Video.rotation.y = Math.PI;
         this.Video.eventFlag = true;
         this.scene.add(this.Video);
 
@@ -48,8 +46,7 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0x000000, side: THREE.DoubleSide })
         );
         this.videoBtn.name = 'Bar Element';
-        this.videoBtn.position.set(29, -22, 100);
-        this.videoBtn.rotation.y = 0.32;
+        this.videoBtn.position.set(16, -19, 100);
         this.videoBtn.visible = false;
         this.videoBtn.material.transparent = true;
         this.videoBtn.material.opacity = 0.001;
@@ -67,9 +64,8 @@ export class BarScene extends BaseScene {
             new THREE.MeshPhongMaterial({ color: 0xff0000, side: THREE.DoubleSide })
         );
         this.lockDoor.name = 'Lock Door';
-        this.lockDoor.position.set(-86, -15, -100);
-        this.lockDoor.rotation.y = 1.74;
-        this.lockDoor.rotation.y = -0.02;
+        this.lockDoor.position.set(-67.5, -21, -110);
+        this.lockDoor.rotation.y = 1.14;
         this.lockDoor.visible = false;
         this.lockDoor.material.transparent = true;
         this.lockDoor.material.opacity = 0.001;
@@ -113,8 +109,8 @@ export class BarScene extends BaseScene {
             new THREE.MeshBasicMaterial({ map: this.game.textures[7], side: THREE.DoubleSide })
         );
         this.locker.name = 'Locker';
-        this.locker.position.set(-110, -19, -140);
-        this.locker.rotation.y = 0.68;
+        this.locker.position.set(-85, -15, -140);
+        this.locker.rotation.y = 0.6;
         this.locker.visible = false;
         this.locker.eventFlag = true;
         for(let i = 1; i < 11; i++){

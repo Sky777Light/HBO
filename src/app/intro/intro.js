@@ -18,11 +18,19 @@ export class Intro {
         e.preventDefault();
         if(this.canScroll){
             let newState = this.presentState;
-            if(e.originalEvent.deltaY){
+            if(e.type === 'mousewheel'){
                 newState += e.originalEvent.deltaY > 0 ? 1 : -1;
-            } else {
+            } else if(e.type === 'touchmove'){
                 let touchEnd = e.originalEvent.touches[0].clientY || e.originalEvent.touches[0].pageY;
                 newState += this.touchStart - touchEnd > 0 ? 1 : -1;
+            } else if(e.type === 'keydown'){
+                if(e.originalEvent.keyCode === 38){
+                    newState -= 1;
+                } else if(e.originalEvent.keyCode === 40){
+                    newState += 1;
+                } else {
+                    return;
+                }
             }
 
             if(newState < 0 || newState > Object.keys(animations).length) {
@@ -100,11 +108,13 @@ export class Intro {
         $(document).on("touchmove", this.scrollState.bind(this));
         $(document).on("touchstart", this.setTouchStart.bind(this));
         $(document).on("mousewheel", this.scrollState.bind(this));
+        $(document).on("keydown", this.scrollState.bind(this));
     }
 
     removeListeners(){
         $(document).off("touchmove");
         $(document).off("touchstart");
         $(document).off("mousewheel");
+        $(document).off("keydown");
     }
 }
